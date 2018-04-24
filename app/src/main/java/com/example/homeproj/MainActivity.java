@@ -2,56 +2,28 @@ package com.example.homeproj;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewParent;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.homeproj.storage.BookProvider;
+import com.example.homeproj.storage.DummyBookProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends Activity {
-   int Flag=-1;  //0-n - меняем свойства в позиции n, -1 - новая книга
+    // TODO: 24.04.18 посмотри на модификаторы доступа public, private, default, protected
+    int Flag=-1;  //0-n - меняем свойства в позиции n, -1 - новая книга
     ArrayList<String> title_list = new ArrayList<>();
      EditText edit_add;
     ArrayAdapter<String> list_adapter;
     ListView my_list;
-   public enum Genre {Фантастика, Ужасы, Детектив, Любовный_роман, Проза}
-   List<Book> book_mas = new ArrayList<>();
-
-
-public class Author {
-        String firstName, lastName;
-
-    public Author(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-}
-
-    private class Book {
-        int isbn;
-        String title;
-        Author author;
-        Genre genre;
-
-        public Book(int isbn, String title, Author author, Genre genre) {
-            this.isbn = isbn;
-            this.title = title;
-            this.author = author;
-            this.genre = genre;
-        }
-    }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,23 +34,22 @@ public class Author {
         Button add_b = (Button) findViewById(R.id.add_b);
         my_list = (ListView) findViewById(R.id.my_list);
 
-        book_mas.add(new Book(0,"Война и Мир", new Author("Лев", "Толстой"),Genre.Любовный_роман));
-        title_list.add("Война и Мир");
+        Genre g = Genre.Фантастика;
+        switch (g) {
+            case Фантастика:
+                break;
+            case Ужасы:
+                break;
+            case Детектив:
+                break;
+            case Любовный_роман:
+                break;
+            case Проза:
+                break;
+        }
 
-        book_mas.add(new Book(1,"Анна Каренина", new Author("Лев", "Толстой"),Genre.Любовный_роман));
-        title_list.add("Анна Каренина");
-
-        book_mas.add(new Book(2,"Мастер и Маргарита", new Author("Михаил", "Булгаков"),Genre.Фантастика));
-        title_list.add("Мастер и Маргарита");
-
-        book_mas.add(new Book(3,"Приключения Шерлока Холмса", new Author("Артур", "Конан-Дойл"),Genre.Детектив));
-        title_list.add("Приключения Шерлока Холмса");
-
-        book_mas.add(new Book(4,"Вий", new Author("Михаил", "Гоголь"),Genre.Ужасы));
-        title_list.add("Вий");
-
-        book_mas.add(new Book(5,"Поэма Евгений Онегин", new Author("Александр", "Пушкин"),Genre.Проза));
-        title_list.add("Поэма Евгений Онегин");
+        BookProvider instance = DummyBookProvider.getInstance();
+        List<Book> allBooks = instance.getAllBooks();
 
         list_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, title_list);
         my_list.setAdapter(list_adapter);
@@ -99,8 +70,16 @@ public class Author {
             }
         });
 
+        new Intent().putExtra("extra_book", new Book());
+    }
 
-}
+    List<Book> book_mas = new ArrayList<>();
+
+
+    // TODO: 24.04.18 энам передалать как обсудили и вынести в отдельный файл
+    public enum Genre {
+        Фантастика, Ужасы, Детектив, Любовный_роман, Проза
+    }
 
     public void add_b_cick(View view) {
         Intent intent = new Intent(this,info_book.class);

@@ -1,19 +1,18 @@
 package com.example.homeproj;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+// TODO: 24.04.18 Имя должно быть типа BookDetailActivity
 public class info_book extends AppCompatActivity {
+    // TODO: 24.04.18 именование полей класса. можешь называть с m или без m, см. code style guide
     EditText ed_isbn,ed_title,ed_author_fn,ed_author_ln;
     Spinner genre;
-
     String[] data = {"Фантастика", "Ужасы", "Детектив", "Любовный_роман", "Проза"};
 
     @Override
@@ -35,6 +34,7 @@ public class info_book extends AppCompatActivity {
         genre.setPrompt("Title");
 
         Intent intent = getIntent();
+        // TODO: 24.04.18 посмотри чем отличается int и Integer
         Integer isbm = intent.getIntExtra("isbn", 0);
         ed_isbn.setText(isbm.toString());
         ed_title.setText(intent.getStringExtra("title"));
@@ -54,6 +54,7 @@ public class info_book extends AppCompatActivity {
 
     public void bt_save_click(View view) {
         Intent intent_push = new Intent();
+        // TODO: 24.04.18 Сделй через Parcelable и через Serializable
         intent_push.putExtra("isbn",ed_isbn.getText().toString() );
         intent_push.putExtra("title",ed_title.getText().toString() );
         intent_push.putExtra("author_fn",ed_author_fn.getText().toString() );
